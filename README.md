@@ -58,21 +58,25 @@ Full hardware writeup: [tabithako.github.io/projects/sew-unit](https://tabithako
 
 PhysTwin fit to a single training trajectory successfully learns cloth physical parameters (stiffness, damping, mass) and generalises to novel bimanual actions not seen during training.
 
-**Robot executing a recorded bimanual trajectory:** [video](https://tabithako.github.io/assets/videos/sew-unit-mirror-bimanual.mp4)
+**Training trajectory — particle simulation fit to a real cloth episode:**
 
-**Leader-follower teleoperation — data collection in action:** [video](https://tabithako.github.io/assets/videos/sew-unit-teleop-leader.mp4)
+<video src="https://github.com/user-attachments/assets/9487b403-865a-417e-8830-3e5de7cf80ef" autoplay loop muted playsinline></video>
+
+**Robot executing a recorded bimanual trajectory:** [video](https://tabithako.github.io/assets/videos/sew-unit-mirror-bimanual.mp4) · **Leader-follower teleoperation:** [video](https://tabithako.github.io/assets/videos/sew-unit-teleop-leader.mp4)
 
 **Triptych validation** (real RGB | point cloud | PhysTwin prediction):
 
-![Triptych — real RGB, point cloud, PhysTwin prediction](https://tabithako.github.io/assets/images/cloth-dynamics-triptych.gif)
+<video src="https://github.com/user-attachments/assets/549f60a3-1575-40cb-999a-32c8a42e4c1e" autoplay loop muted playsinline></video>
+
+<video src="https://github.com/user-attachments/assets/25435962-691d-44a5-9ca9-f97fedea93ff" autoplay loop muted playsinline></video>
 
 ![Point cloud tracking grid](https://tabithako.github.io/assets/images/cloth-dynamics-pointcloud-grid.png)
 
 **Novel actions generated with fitted cloth parameters:**
 
-![Fold left over right](https://tabithako.github.io/assets/images/sew-unit-dual-fold.gif)
+<video src="https://github.com/user-attachments/assets/79245128-d3a3-4459-9fd2-85e3f5b8d116" autoplay loop muted playsinline></video>
 
-*Fold — bimanual pull-apart [video](https://tabithako.github.io/assets/videos/sew-unit-dual-pull-apart.mp4) · push-together [video](https://tabithako.github.io/assets/videos/sew-unit-dual-push-together.mp4)*
+*Fold left over right — bimanual pull-apart [video](https://tabithako.github.io/assets/videos/sew-unit-dual-pull-apart.mp4) · push-together [video](https://tabithako.github.io/assets/videos/sew-unit-dual-push-together.mp4)*
 
 Full writeup: [tabithako.github.io/projects/cloth-dynamics](https://tabithako.github.io/projects/cloth-dynamics)
 
