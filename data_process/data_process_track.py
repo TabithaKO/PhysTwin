@@ -55,6 +55,10 @@ def filter_track(track_path, pcd_path, mask_path, frame_num, num_cam):
         assert tracks.shape[0] == frame_num
         num_points = np.shape(tracks)[1]
 
+        # Clamp tracks to valid image bounds
+        h_img, w_img = processed_masks[0][i]["object"].shape
+        tracks[:, :, 0] = np.clip(tracks[:, :, 0], 0, h_img - 1)
+        tracks[:, :, 1] = np.clip(tracks[:, :, 1], 0, w_img - 1)
         # Locate the track points in the object mask of the first frame
         object_mask = processed_masks[0][i]["object"]
         track_object_idx = np.zeros((num_points), dtype=int)
@@ -84,14 +88,10 @@ def filter_track(track_path, pcd_path, mask_path, frame_num, num_cam):
                 except:
                     # Sometimes the track coordinate is out of image
                     visibility[frame_idx, j] = 0
-            # Filter based on controller_mask
-            controller_mask = processed_masks[frame_idx][i]["controller"]
-            for j in range(num_points):
-                if track_controller_idx[j] == 1 and visibility[frame_idx, j] == 1:
-                    if not controller_mask[
-                        tracks[frame_idx, j, 0], tracks[frame_idx, j, 1]
-                    ]:
-                        visibility[frame_idx, j] = 0
+            # Filter based on controller_mask — DISABLED for SO-101
+            # CoTracker points drift far from small gripper masks.
+            # Frame-0 mask identifies controller points; no per-frame filtering.
+            pass
 
         # Get the track point cloud
         track_points = np.zeros((frame_num, num_points, 3))
@@ -100,6 +100,9 @@ def filter_track(track_path, pcd_path, mask_path, frame_num, num_cam):
             data = np.load(f"{pcd_path}/{frame_idx}.npz")
             points = data["points"]
             colors = data["colors"]
+            h_img, w_img = points.shape[1], points.shape[2]
+            tracks[frame_idx, :, 0] = np.clip(tracks[frame_idx, :, 0], 0, h_img - 1)
+            tracks[frame_idx, :, 1] = np.clip(tracks[frame_idx, :, 1], 0, w_img - 1)
 
             track_points[frame_idx][np.where(visibility[frame_idx])] = points[i][
                 tracks[frame_idx, np.where(visibility[frame_idx])[0], 0],
@@ -255,6 +258,11 @@ def filter_motion(track_data, neighbor_dist=0.01):
     # Filter all points that disappear in the sequence
     mask = np.prod(controller_visibilities, axis=0)
 
+    if controller_points.shape[1] == 0:
+        track_data["controller_mask"] = mask
+        track_data["controller_motions_valid"] = controller_motions_valid
+        track_data["controller_motions"] = controller_motions
+        return track_data
     y_min, y_max = np.min(controller_points[0, :, 1]), np.max(
         controller_points[0, :, 1]
     )
@@ -330,8 +338,16 @@ def get_final_track_data(track_data, controller_threhsold=0.01):
     controller_points = track_data["controller_points"]
     mask = track_data["controller_mask"]
 
+    # Handle empty controller points
+    if len(mask) == 0 or mask.sum() == 0:
+        track_data.pop("controller_points")
+        track_data.pop("controller_colors")
+        track_data.pop("controller_visibilities")
+        track_data["controller_points"] = np.zeros((object_points.shape[0], 0, 3))
+        return track_data
+
     new_controller_points = controller_points[:, np.where(mask)[0], :]
-    assert len(new_controller_points[0]) >= 30
+    assert len(new_controller_points[0]) >= 5, f"Only {len(new_controller_points[0])} controller points (need >=5)"
     # Do farthest point sampling on the valid controller points to select the final controller points
     valid_indices = np.arange(len(new_controller_points[0]))
     points_map = {}
@@ -342,7 +358,7 @@ def get_final_track_data(track_data, controller_threhsold=0.01):
     sample_points = np.array(sample_points)
     sample_pcd = o3d.geometry.PointCloud()
     sample_pcd.points = o3d.utility.Vector3dVector(sample_points)
-    fps_pcd = sample_pcd.farthest_point_down_sample(30)
+    fps_pcd = sample_pcd.farthest_point_down_sample(min(30, len(sample_points)))
     final_indices = []
     for point in fps_pcd.points:
         final_indices.append(points_map[tuple(point)])

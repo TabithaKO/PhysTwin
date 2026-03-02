@@ -1544,7 +1544,7 @@ class InvPhyTrainerWarp:
 
         vis = o3d.visualization.Visualizer()
         vis.create_window(visible=False, width=width, height=height)
-        fourcc = cv2.VideoWriter_fourcc(*"avc1")  # Codec for .mp4 file format
+        fourcc = cv2.VideoWriter_fourcc(*"mp4v")  # Codec for .mp4 file format
         video_writer = cv2.VideoWriter(video_path, fourcc, FPS, (width, height))
 
         frame_path = f"{cfg.overlay_path}/{vis_cam_idx}/0.png"
@@ -1836,7 +1836,7 @@ class InvPhyTrainerWarp:
 
         vis = o3d.visualization.Visualizer()
         vis.create_window(visible=False, width=width, height=height)
-        fourcc = cv2.VideoWriter_fourcc(*"avc1")  # Codec for .mp4 file format
+        fourcc = cv2.VideoWriter_fourcc(*"mp4v")  # Codec for .mp4 file format
         video_writer = cv2.VideoWriter(video_path, fourcc, FPS, (width, height))
 
         frame_path = f"{cfg.overlay_path}/{vis_cam_idx}/0.png"

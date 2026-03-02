@@ -21,7 +21,7 @@ args = parser.parse_args()
 base_path = args.base_path
 case_name = args.case_name
 
-num_cam = 3
+num_cam = 2
 assert len(glob.glob(f"{base_path}/{case_name}/depth/*")) == num_cam
 device = "cuda"
 

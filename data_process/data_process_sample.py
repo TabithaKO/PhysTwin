@@ -53,6 +53,14 @@ def process_unique_points(track_data):
     object_motions_valid = object_motions_valid[:, unique_idx]
 
     # Make sure all points are above the ground
+
+    # Flip Z axis for SO-101 data (our cameras produce Z>0 for objects,
+    # but PhysTwin convention is Z<0 for objects, Z=0 ground plane)
+    if object_points[object_points[..., 2] != 0, 2].mean() > 0:
+        print("  [SO-101 fix] Negating Z axis to match PhysTwin convention")
+        object_points[..., 2] *= -1
+        if "controller_points" in track_data:
+            track_data["controller_points"][..., 2] *= -1
     object_points[object_points[..., 2] > 0, 2] = 0
 
     if SHAPE_PRIOR:

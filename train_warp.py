@@ -22,6 +22,7 @@ def set_all_seeds(seed):
 
 seed = 42
 set_all_seeds(seed)
+torch.cuda.set_per_process_memory_fraction(0.65, 0)  # Cap to ~10.5GB, leave room for ablation 1
 
 if __name__ == "__main__":
     parser = ArgumentParser()
