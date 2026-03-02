@@ -58,19 +58,35 @@ Full hardware writeup: [tabithako.github.io/projects/sew-unit](https://tabithako
 
 PhysTwin fit to a single training trajectory successfully learns cloth physical parameters (stiffness, damping, mass) and generalises to novel bimanual actions not seen during training.
 
+**Robot executing a recorded bimanual trajectory:**
+
+<video src="https://tabithako.github.io/assets/videos/sew-unit-mirror-bimanual.mp4" autoplay loop muted playsinline></video>
+
+**Leader-follower teleoperation — data collection in action:**
+
+<video src="https://tabithako.github.io/assets/videos/sew-unit-teleop-leader.mp4" autoplay loop muted playsinline></video>
+
 **Triptych validation** (real RGB | point cloud | PhysTwin prediction):
 
 ![Point cloud tracking grid](https://tabithako.github.io/assets/images/cloth-dynamics-pointcloud-grid.png)
 
+<video src="https://tabithako.github.io/assets/videos/cloth-dynamics-triptych-cam0.mp4" autoplay loop muted playsinline></video>
+
 **Novel actions generated with fitted cloth parameters:**
 
-| Action | Demo |
-|--------|------|
-| Bimanual pull-apart | [video](https://tabithako.github.io/assets/videos/sew-unit-dual-pull-apart.mp4) |
-| Fold left over right | [video](https://tabithako.github.io/assets/videos/cloth-dynamics-fold-l-over-r-v2.mp4) |
-| Bimanual push-together | [video](https://tabithako.github.io/assets/videos/sew-unit-dual-push-together.mp4) |
+<video src="https://tabithako.github.io/assets/videos/sew-unit-dual-pull-apart.mp4" autoplay loop muted playsinline></video>
 
-Full writeup with embedded videos: [tabithako.github.io/projects/cloth-dynamics](https://tabithako.github.io/projects/cloth-dynamics)
+*Bimanual pull-apart*
+
+<video src="https://tabithako.github.io/assets/videos/cloth-dynamics-fold-l-over-r-v2.mp4" autoplay loop muted playsinline></video>
+
+*Fold left over right*
+
+<video src="https://tabithako.github.io/assets/videos/sew-unit-dual-push-together.mp4" autoplay loop muted playsinline></video>
+
+*Bimanual push-together*
+
+Full writeup: [tabithako.github.io/projects/cloth-dynamics](https://tabithako.github.io/projects/cloth-dynamics)
 
 ---
 
